@@ -1,0 +1,23 @@
+rules={'A':['C'],'B':['F'],'C':['B','D'],'D':['E']}
+facts=['A','B']
+
+print("Forward Chaining:")
+derived=[]
+for k in list(facts):
+    if k in rules:
+        for v in rules[k]:
+            if v not in facts:
+                facts.append(v)
+                derived.append(v)
+print("Derived Facts:", *derived)
+
+print("\nBackward Chaining:")
+goal='D'
+def back(g):
+    if g in facts: return True
+    for k,v in rules.items():
+        if g in v and back(k): return True
+    return False
+
+print(f"The goal '{goal}' can be reached from the initial facts." if back(goal)
+      else f"The goal '{goal}' cannot be reached.")
